@@ -12,24 +12,24 @@ import javax.persistence.Table;
 public class Countries {
 	@Id
 	@Column
-	private int CountryCode;
+	private int countryCode;
 	@Column
-	private String CountryName;
+	private String countryName;
 
 	public int getCountryCode() {
-		return CountryCode;
+		return countryCode;
 	}
 
 	public void setCountryCode(int countryCode) {
-		CountryCode = countryCode;
+		countryCode = countryCode;
 	}
 
 	public String getCountryName() {
-		return CountryName;
+		return countryName;
 	}
 
 	public void setCountryName(String countryName) {
-		CountryName = countryName;
+		countryName = countryName;
 	}
 
 }

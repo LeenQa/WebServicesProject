@@ -15,63 +15,63 @@ public class UserAccounts {
 	
 	@Id
 	@Column
-	private String UserName;
+	private String userName;
 	@Column
-	private String UserPassword;
+	private String userPassword;
 	@Column
-	private Date BirthDate;
+	private Date birthDate;
 	@Column
-	private String UserPhoto;
+	private String userPhoto;
 	@Column
-	private Date CreationDateTime;
+	private Date creationDateTime;
 	@Column
-	private String Email;
+	private String email;
 	
 	public String getUserName() {
-		return UserName;
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		UserName = userName;
+		userName = userName;
 	}
 
 	public String getUserPassword() {
-		return UserPassword;
+		return userPassword;
 	}
 
 	public void setUserPassword(String userPassword) {
-		UserPassword = userPassword;
+		userPassword = userPassword;
 	}
 
 	public Date getBirthDate() {
-		return BirthDate;
+		return birthDate;
 	}
 
 	public void setBirthDate(Date birthDate) {
-		BirthDate = birthDate;
+		birthDate = birthDate;
 	}
 
 	public String getUserPhoto() {
-		return UserPhoto;
+		return userPhoto;
 	}
 
 	public void setUserPhoto(String userPhoto) {
-		UserPhoto = userPhoto;
+		userPhoto = userPhoto;
 	}
 
 	public Date getCreationDateTime() {
-		return CreationDateTime;
+		return creationDateTime;
 	}
 
 	public void setCreationDateTime(Date creationDateTime) {
-		CreationDateTime = creationDateTime;
+		creationDateTime = creationDateTime;
 	}
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		email = email;
 	}
 }
