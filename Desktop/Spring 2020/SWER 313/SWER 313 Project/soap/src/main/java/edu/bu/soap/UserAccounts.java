@@ -4,8 +4,12 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 //mark class as an Entity   
 @Entity
@@ -15,14 +19,17 @@ public class UserAccounts {
 	
 	@Id
 	@Column
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String userName;
 	@Column
 	private String userPassword;
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
 	@Column
 	private String userPhoto;
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private Date creationDateTime;
 	@Column
 	private String email;
@@ -32,7 +39,7 @@ public class UserAccounts {
 	}
 
 	public void setUserName(String userName) {
-		userName = userName;
+		this.userName = userName;
 	}
 
 	public String getUserPassword() {
