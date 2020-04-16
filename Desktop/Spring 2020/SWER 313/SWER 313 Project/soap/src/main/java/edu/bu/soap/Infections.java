@@ -3,7 +3,7 @@ package edu.bu.soap;
 import java.sql.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
 //mark class as an Entity   
-@Embeddable
+@Entity
 //defining class name as Table name  
 @Table
 public class Infections {

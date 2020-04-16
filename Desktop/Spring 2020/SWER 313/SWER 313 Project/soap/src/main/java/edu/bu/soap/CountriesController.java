@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //mark class as Controller
 @RestController
-public class Controller {
+public class CountriesController {
 //autowire the countrysService class
     @Autowired
     CountriesService countriesService;
