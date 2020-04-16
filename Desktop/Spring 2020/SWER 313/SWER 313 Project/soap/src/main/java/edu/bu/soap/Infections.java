@@ -3,13 +3,13 @@ package edu.bu.soap;
 import java.sql.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
 //mark class as an Entity   
-@Entity
+@Embeddable
 //defining class name as Table name  
 @Table
 public class Infections {
