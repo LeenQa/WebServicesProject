@@ -40,7 +40,7 @@ public class UserAccounts {
 	}
 
 	public void setUserPassword(String userPassword) {
-		userPassword = userPassword;
+		this.userPassword = userPassword;
 	}
 
 	public Date getBirthDate() {
@@ -48,7 +48,7 @@ public class UserAccounts {
 	}
 
 	public void setBirthDate(Date birthDate) {
-		birthDate = birthDate;
+		this.birthDate = birthDate;
 	}
 
 	public String getUserPhoto() {
@@ -56,7 +56,7 @@ public class UserAccounts {
 	}
 
 	public void setUserPhoto(String userPhoto) {
-		userPhoto = userPhoto;
+		this.userPhoto = userPhoto;
 	}
 
 	public Date getCreationDateTime() {
@@ -64,7 +64,7 @@ public class UserAccounts {
 	}
 
 	public void setCreationDateTime(Date creationDateTime) {
-		creationDateTime = creationDateTime;
+		this.creationDateTime = creationDateTime;
 	}
 
 	public String getEmail() {
@@ -72,6 +72,6 @@ public class UserAccounts {
 	}
 
 	public void setEmail(String email) {
-		email = email;
+		this.email = email;
 	}
 }

@@ -21,7 +21,7 @@ public class Countries {
 	}
 
 	public void setCountryCode(int countryCode) {
-		countryCode = countryCode;
+		this.countryCode = countryCode;
 	}
 
 	public String getCountryName() {
@@ -29,7 +29,7 @@ public class Countries {
 	}
 
 	public void setCountryName(String countryName) {
-		countryName = countryName;
+		this.countryName = countryName;
 	}
 
 }

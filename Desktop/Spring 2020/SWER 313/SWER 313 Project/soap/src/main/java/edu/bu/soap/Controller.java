@@ -30,13 +30,13 @@ public class Controller {
     }
 
 //creating a get mapping that retrieves the detail of a specific country
-    @GetMapping("/countries/{countryCode}")
+    @GetMapping("/country/{countryCode}")
     private Countries getCountries(@PathVariable("countryCode") int countryCode) {
         return countriesService.getCountriesByCode(countryCode);
     }
 
 //creating a delete mapping that deletes a specified country
-    @DeleteMapping("/countries/{countryCode}")
+    @DeleteMapping("/country/{countryCode}")
     private void deleteCountry(@PathVariable("countryCode") int countryCode) {
     	countriesService.delete(countryCode);
     }
