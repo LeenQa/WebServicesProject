@@ -4,6 +4,9 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
@@ -13,6 +16,10 @@ import javax.persistence.Table;
 //defining class name as Table name  
 @Table
 public class Infections {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false)
+	private int id;
 	@JoinTable( name = "Countries", joinColumns = @JoinColumn ( name = "countryCode"), inverseJoinColumns = @JoinColumn( name = "countryCode"))
 	private int countryCode;
 	@Column
@@ -27,6 +34,23 @@ public class Infections {
 	private int numOfDeaths;
 	@Column
 	private int numOfRecoveries;
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Date getDtReported() {
+		return dtReported;
+	}
+
+	public void setDtReported(Date dtReported) {
+		this.dtReported = dtReported;
+	}
 
 	public int getCountryCode() {
 		return countryCode;
