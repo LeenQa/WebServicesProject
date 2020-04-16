@@ -1,6 +1,7 @@
 package edu.bu.soap;
 
 import java.sql.Date;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 //mark class as an Entity   
 @Entity
 //defining class name as Table name  
@@ -20,22 +25,22 @@ public class Infections {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
 	private int id;
-	@JoinTable( name = "Countries", joinColumns = @JoinColumn ( name = "countryCode"), inverseJoinColumns = @JoinColumn( name = "countryCode"))
+	@JoinTable(name = "Countries", joinColumns = @JoinColumn(name = "countryCode"), inverseJoinColumns = @JoinColumn(name = "countryCode"))
 	private int countryCode;
 	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private Date dtReported;
-	@JoinTable( name = "UsersAccounts", joinColumns = @JoinColumn ( name = "reportedBy"), inverseJoinColumns = @JoinColumn( name = "userName"))
+	@JoinTable(name = "UsersAccounts", joinColumns = @JoinColumn(name = "reportedBy"), inverseJoinColumns = @JoinColumn(name = "userName"))
 	private String reportedBy;
 	@Column
 	private String sourceURL;
 	@Column
-	private int numOfInections;
+	private int numOfInfections;
 	@Column
 	private int numOfDeaths;
 	@Column
 	private int numOfRecoveries;
 
-	
 	public int getId() {
 		return id;
 	}
@@ -85,11 +90,11 @@ public class Infections {
 	}
 
 	public int getNumOfInections() {
-		return numOfInections;
+		return numOfInfections;
 	}
 
 	public void setNumOfInections(int numOfInections) {
-		this.numOfInections = numOfInections;
+		this.numOfInfections = numOfInections;
 	}
 
 	public int getNumOfDeaths() {
