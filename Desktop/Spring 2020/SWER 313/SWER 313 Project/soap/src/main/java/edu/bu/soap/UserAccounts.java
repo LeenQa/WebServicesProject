@@ -1,13 +1,14 @@
 package edu.bu.soap;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -29,8 +30,8 @@ public class UserAccounts {
 	@Column
 	private String userPhoto;
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private Date creationDateTime;
+	@CreationTimestamp
+	private LocalDateTime creationDateTime;
 	@Column
 	private String email;
 	
@@ -66,11 +67,11 @@ public class UserAccounts {
 		this.userPhoto = userPhoto;
 	}
 
-	public Date getCreationDateTime() {
+	public LocalDateTime getCreationDateTime() {
 		return creationDateTime;
 	}
 
-	public void setCreationDateTime(Date creationDateTime) {
+	public void setCreationDateTime(LocalDateTime creationDateTime) {
 		this.creationDateTime = creationDateTime;
 	}
 

@@ -3,6 +3,8 @@ package edu.bu.soap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,10 +44,11 @@ public class UserAccountsController {
     }
 
 //creating post mapping that post the userAccount detail in the database
-    @PostMapping("/useraccounts")
-    private String saveUserAccount(@RequestBody UserAccounts userAccounts) {
+    @PostMapping("/registration")
+    private ResponseEntity saveUserAccount(@RequestBody UserAccounts userAccounts) {
     	userAccountsService.saveOrUpdate(userAccounts);
-        return userAccounts.getUserName();
+    	return new ResponseEntity("You have been registred successfully " + userAccounts.getUserName() + "!!",HttpStatus.CREATED);
+       // return userAccounts.getUserName();
     }
 
 //creating put mapping that updates the userAccount detail
