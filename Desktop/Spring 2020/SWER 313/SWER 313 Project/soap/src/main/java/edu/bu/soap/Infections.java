@@ -25,8 +25,8 @@ public class Infections {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false)
 	private int id;
-	@JoinTable(name = "Countries", joinColumns = @JoinColumn(name = "countryCode"), inverseJoinColumns = @JoinColumn(name = "countryCode"))
-	private int countryCode;
+	@JoinTable(name = "Countries", joinColumns = @JoinColumn(name = "countryCode"), inverseJoinColumns = @JoinColumn(name = "theCountryCode"))
+	private int theCountryCode;
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private Date dtReported;
@@ -58,11 +58,11 @@ public class Infections {
 	}
 
 	public int getCountryCode() {
-		return countryCode;
+		return theCountryCode;
 	}
 
 	public void setCountryCode(int countryCode) {
-		this.countryCode = countryCode;
+		this.theCountryCode = countryCode;
 	}
 
 	public Date getDateReported() {

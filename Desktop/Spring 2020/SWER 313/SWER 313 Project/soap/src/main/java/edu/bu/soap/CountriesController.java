@@ -1,5 +1,6 @@
 package edu.bu.soap;
 
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,8 +26,8 @@ public class CountriesController {
 
 //creating a get mapping that retrieves all the countries detail from the database
     @GetMapping("/countries")
-    private List<Countries> getAllCountries() {
-        return countriesService.getAllCountries();
+    private List<Object[]> getAllCountries() {
+        return countriesService.getAllBy();
     }
 
 //creating a get mapping that retrieves the detail of a specific country

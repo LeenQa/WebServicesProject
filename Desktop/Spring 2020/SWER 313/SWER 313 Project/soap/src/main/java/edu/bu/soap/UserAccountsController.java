@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 //mark class as Controller	
@@ -69,7 +70,7 @@ public class UserAccountsController {
     }
     
     //creating put mapping that updates the userAccount detail
-    @PutMapping("/changeemail/{userAccountUserName}")
+    @PutMapping("/changeuserphoto/{userAccountUserName}")
     private void updateUserPhoto(@PathVariable("userAccountUserName") String userAccountUserName, @RequestBody String userPhoto) {
     	UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
     	userAccount.setUserPhoto(userPhoto);
@@ -77,7 +78,7 @@ public class UserAccountsController {
     }
     
   //creating put mapping that updates the userAccount detail
-    @PutMapping("/changeemail/{userAccountUserName}")
+    @PutMapping("/changebirthdate/{userAccountUserName}")
     private void updateBirthDate(@PathVariable("userAccountUserName") String userAccountUserName, @RequestBody Date birthDate) {
     	UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
     	userAccount.setBirthDate(birthDate);
