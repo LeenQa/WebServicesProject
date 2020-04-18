@@ -9,13 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 //mark class as an Entity   
 @Entity
 //defining class name as Table name  
 @Table
+@DynamicUpdate
 public class UserAccounts {
 	
 	@Id

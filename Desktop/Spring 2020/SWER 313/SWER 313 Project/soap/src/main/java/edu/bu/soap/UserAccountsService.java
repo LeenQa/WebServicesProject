@@ -24,6 +24,11 @@ public class UserAccountsService {
 		public UserAccounts getUserAccountsByUserName(String userName) {
 			return userAccountsRepository.findById(userName).get();
 		}
+		
+		public void changeUserName(String userName, String userName1) {
+			userAccountsRepository.findById(userName).get().setUserName(userName1);
+		}
+
 
 	//saving a specific record by using the method save() of CrudRepository  
 		public void saveOrUpdate(UserAccounts userAccounts) {
