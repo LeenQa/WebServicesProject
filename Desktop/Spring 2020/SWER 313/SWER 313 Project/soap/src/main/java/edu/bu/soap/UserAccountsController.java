@@ -1,8 +1,12 @@
 package edu.bu.soap;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.tomcat.util.http.parser.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 //mark class as Controller	
 @RestController
@@ -47,8 +54,15 @@ public class UserAccountsController {
 
 //creating post mapping that post the userAccount detail in the database
     @PostMapping("/registration")
-    private ResponseEntity saveUserAccount(@RequestBody UserAccounts userAccounts) {
-    	userAccountsService.saveOrUpdate(userAccounts);
+    private ResponseEntity saveUserAccount(@RequestBody UserAccounts userAccounts, @RequestParam("userPhoto") MultipartFile file)throws IOException {
+    	File convertFile = new File("C:\\Users\\User\\Desktop"+file.getOriginalFilename());
+		convertFile.createNewFile();
+		FileOutputStream fout = new FileOutputStream(convertFile);
+		fout.write(file.getBytes());
+		fout.close();
+		userAccountsService.saveOrUpdate(userAccounts);
+		//return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
+    	
     	return new ResponseEntity("You have been registred successfully " + userAccounts.getUserName() + "!!",HttpStatus.CREATED);
        // return userAccounts.getUserName();
     }
@@ -84,4 +98,15 @@ public class UserAccountsController {
     	userAccount.setBirthDate(birthDate);
     	userAccountsService.saveOrUpdate(userAccount);
     }
+    
+
+	/*@RequestMapping(value="/registration", method=RequestMethod.POST)
+	public ResponseEntity<Object> uploadFile(@RequestParam("userPhoto") MultipartFile file) throws IOException {
+		File convertFile = new File("C:\\Users\\User\\Desktop"+file.getOriginalFilename());
+		convertFile.createNewFile();
+		FileOutputStream fout = new FileOutputStream(convertFile);
+		fout.write(file.getBytes());
+		fout.close();
+		return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
+	}*/
 }
