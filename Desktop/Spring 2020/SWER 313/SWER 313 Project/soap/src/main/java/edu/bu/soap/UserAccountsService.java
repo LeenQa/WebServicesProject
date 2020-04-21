@@ -1,10 +1,13 @@
 package edu.bu.soap;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 //defining the business logic
 @Service
@@ -44,4 +47,7 @@ public class UserAccountsService {
 		public void update(UserAccounts userAccounts, String userAccountUserName) {
 			userAccountsRepository.save(userAccounts);
 		}
+		
+		 public void storeFile(MultipartFile file) {
+		    }
 }

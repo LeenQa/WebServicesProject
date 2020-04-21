@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 //mark class as Controller	
 @RestController
@@ -54,15 +55,8 @@ public class UserAccountsController {
 
 //creating post mapping that post the userAccount detail in the database
     @PostMapping("/registration")
-    private ResponseEntity saveUserAccount(@RequestBody UserAccounts userAccounts, @RequestParam("userPhoto") MultipartFile file)throws IOException {
-    	File convertFile = new File("C:\\Users\\User\\Desktop"+file.getOriginalFilename());
-		convertFile.createNewFile();
-		FileOutputStream fout = new FileOutputStream(convertFile);
-		fout.write(file.getBytes());
-		fout.close();
-		userAccountsService.saveOrUpdate(userAccounts);
-		//return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
-    	
+    private ResponseEntity saveUserAccount(@RequestBody UserAccounts userAccounts) {
+    	userAccountsService.saveOrUpdate(userAccounts);
     	return new ResponseEntity("You have been registred successfully " + userAccounts.getUserName() + "!!",HttpStatus.CREATED);
        // return userAccounts.getUserName();
     }
@@ -85,10 +79,21 @@ public class UserAccountsController {
     
     //creating put mapping that updates the userAccount detail
     @PutMapping("/changeuserphoto/{userAccountUserName}")
-    private void updateUserPhoto(@PathVariable("userAccountUserName") String userAccountUserName, @RequestBody String userPhoto) {
+    private String updateUserPhoto(@PathVariable("userAccountUserName") String userAccountUserName, @RequestParam("file") MultipartFile file) {
     	UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
-    	userAccount.setUserPhoto(userPhoto);
-    	userAccountsService.saveOrUpdate(userAccount);
+    	byte[] photo;
+		try {
+			photo = file.getBytes();
+			userAccount.setUserPhoto(photo);
+			userAccountsService.saveOrUpdate(userAccount);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
+	        		.path(file.getOriginalFilename())
+	                .toUriString();
+	        return fileDownloadUri;
     }
     
   //creating put mapping that updates the userAccount detail
@@ -98,15 +103,5 @@ public class UserAccountsController {
     	userAccount.setBirthDate(birthDate);
     	userAccountsService.saveOrUpdate(userAccount);
     }
-    
 
-	/*@RequestMapping(value="/registration", method=RequestMethod.POST)
-	public ResponseEntity<Object> uploadFile(@RequestParam("userPhoto") MultipartFile file) throws IOException {
-		File convertFile = new File("C:\\Users\\User\\Desktop"+file.getOriginalFilename());
-		convertFile.createNewFile();
-		FileOutputStream fout = new FileOutputStream(convertFile);
-		fout.write(file.getBytes());
-		fout.close();
-		return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
-	}*/
 }
