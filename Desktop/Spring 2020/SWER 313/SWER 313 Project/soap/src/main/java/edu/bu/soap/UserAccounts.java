@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,8 +31,8 @@ public class UserAccounts {
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
-	@Column
-	private String userPhoto;
+	@Lob
+	private byte[] userPhoto;
 	@Column
 	@CreationTimestamp
 	private LocalDateTime creationDateTime;
@@ -62,11 +63,11 @@ public class UserAccounts {
 		this.birthDate = birthDate;
 	}
 
-	public String getUserPhoto() {
+	public byte[] getUserPhoto() {
 		return userPhoto;
 	}
 
-	public void setUserPhoto(String userPhoto) {
+	public void setUserPhoto(byte[] userPhoto) {
 		this.userPhoto = userPhoto;
 	}
 
