@@ -1,5 +1,8 @@
 package edu.bu.soap;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class CountriesInfections {
 
 	int countryCode;
@@ -46,5 +49,8 @@ public class CountriesInfections {
 		this.numOfRecoveries = numOfRecoveries;
 	}
 	
-	
+	public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
+    }
 }

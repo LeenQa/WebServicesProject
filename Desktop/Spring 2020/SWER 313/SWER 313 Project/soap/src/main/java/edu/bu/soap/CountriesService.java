@@ -44,4 +44,8 @@ public class CountriesService {
 	public List<Object[]> getAllBy() {
 	    return countriesRepository.queryBy();
 	    }
+	
+	public List<Object[]> getAllByCode(int code) {
+	    return countriesRepository.queryBy2(code);
+	    }
 }
