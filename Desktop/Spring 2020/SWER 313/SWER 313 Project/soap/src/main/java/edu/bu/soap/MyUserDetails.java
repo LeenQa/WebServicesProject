@@ -1,31 +1,32 @@
 package edu.bu.soap;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class MyUserDetails implements UserDetails{
-	
+public class MyUserDetails implements UserDetails {
+
 	private String userName;
 	private String password;
 	private boolean active;
-	private List<GrantedAuthority> authorities;
+	private List<SimpleGrantedAuthority> authorities;
 
 	public MyUserDetails(UserAccounts userAccount) {
 		this.userName = userAccount.getUserName();
 		this.password = userAccount.getUserPassword();
-		this.active = true;
-		this.authorities = null;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return authorities;
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class MyUserDetails implements UserDetails{
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
-		return active;
+		return true;
 	}
 
 	@Override
@@ -63,5 +64,5 @@ public class MyUserDetails implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 }
