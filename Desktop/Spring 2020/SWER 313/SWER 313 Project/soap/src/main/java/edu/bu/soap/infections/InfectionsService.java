@@ -1,4 +1,4 @@
-package edu.bu.soap;
+package edu.bu.soap.infections;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package edu.bu.soap;
+package edu.bu.soap.infections;
 
 import java.sql.Date;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package edu.bu.soap;
+package edu.bu.soap.countries;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

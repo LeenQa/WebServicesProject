@@ -1,4 +1,4 @@
-package edu.bu.soap;
+package edu.bu.soap.infections;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

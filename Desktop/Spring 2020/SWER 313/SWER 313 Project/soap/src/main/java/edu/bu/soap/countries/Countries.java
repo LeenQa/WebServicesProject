@@ -1,4 +1,4 @@
-package edu.bu.soap;
+package edu.bu.soap.countries;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

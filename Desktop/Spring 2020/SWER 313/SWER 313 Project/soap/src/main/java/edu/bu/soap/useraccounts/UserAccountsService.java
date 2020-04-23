@@ -1,4 +1,4 @@
-package edu.bu.soap;
+package edu.bu.soap.useraccounts;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package edu.bu.soap;
+package edu.bu.soap.security;
 
 import java.util.Optional;
 
@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import edu.bu.soap.useraccounts.UserAccounts;
+import edu.bu.soap.useraccounts.UserAccountsRepository;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService{

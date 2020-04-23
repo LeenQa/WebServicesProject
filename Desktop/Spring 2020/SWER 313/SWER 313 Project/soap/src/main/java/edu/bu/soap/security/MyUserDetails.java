@@ -1,4 +1,4 @@
-package edu.bu.soap;
+package edu.bu.soap.security;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import edu.bu.soap.useraccounts.UserAccounts;
 
 public class MyUserDetails implements UserDetails {
 
