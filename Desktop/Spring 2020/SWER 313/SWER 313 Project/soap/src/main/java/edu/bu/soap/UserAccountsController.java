@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,9 +53,29 @@ public class UserAccountsController {
     }
 
 //creating post mapping that post the userAccount detail in the database
-    @PostMapping("/registration")
-    private ResponseEntity saveUserAccount(@RequestBody UserAccounts userAccounts) {
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public ResponseEntity registerUser(
+                @RequestParam("userName") String name,
+                @RequestParam("userPassword") String password,
+                @RequestParam("email") String email,
+                @RequestParam("birthDate") Date birthDate,
+                @RequestParam("userPhoto") MultipartFile file,
+                HttpServletRequest request,
+                HttpServletResponse response) {
+    
+    	byte[] photo=null;
+    	if(!file.isEmpty()) {
+    	try {
+    			photo = file.getBytes();
+ 
+    		} catch (IOException e) {
+    			
+    			System.out.println("error loading file");
+    		}
+    	}
+    	UserAccounts userAccounts = new UserAccounts(name,password,birthDate,photo,email);
     	userAccountsService.saveOrUpdate(userAccounts);
+    	
     	return new ResponseEntity("You have been registred successfully " + userAccounts.getUserName() + "!!",HttpStatus.CREATED);
        // return userAccounts.getUserName();
     }
@@ -73,7 +98,7 @@ public class UserAccountsController {
     
     //creating put mapping that updates the userAccount detail
     @PutMapping("/changeuserphoto/{userAccountUserName}")
-    private ResponseEntity updateUserPhoto(@PathVariable("userAccountUserName") String userAccountUserName, @RequestParam("file") MultipartFile file) {
+    private ResponseEntity updateUserPhoto(@PathVariable("userAccountUserName") String userAccountUserName, @RequestParam("userPhoto") MultipartFile file) {
     	UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
     	byte[] photo;
 		try {
@@ -87,7 +112,7 @@ public class UserAccountsController {
 	        /*String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
 	        		.path(file.getOriginalFilename())
 	                .toUriString();*/
-	       return new ResponseEntity("File is uploaded successfully", HttpStatus.OK);
+	       return new ResponseEntity("Photo is uploaded successfully!!", HttpStatus.OK);
 	      // return new ResponseEntity("",HttpStatus.OK);
     }
     

@@ -39,6 +39,7 @@ public class UserAccounts {
 	@Column
 	private String email;
 	
+	public UserAccounts () {}
 	public String getUserName() {
 		return userName;
 	}
@@ -65,6 +66,16 @@ public class UserAccounts {
 
 	public byte[] getUserPhoto() {
 		return userPhoto;
+	}
+
+	public UserAccounts(String userName, String userPassword, Date birthDate, byte[] userPhoto,
+			 String email) {
+		super();
+		this.userName = userName;
+		this.userPassword = userPassword;
+		this.birthDate = birthDate;
+		this.userPhoto = userPhoto;
+		this.email = email;
 	}
 
 	public void setUserPhoto(byte[] userPhoto) {

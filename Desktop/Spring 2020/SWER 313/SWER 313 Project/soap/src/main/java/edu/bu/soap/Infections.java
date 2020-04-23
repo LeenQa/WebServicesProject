@@ -1,7 +1,7 @@
 package edu.bu.soap;
 
 import java.sql.Date;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -28,8 +28,9 @@ public class Infections {
 	@JoinTable(name = "Countries", joinColumns = @JoinColumn(name = "countryCode"), inverseJoinColumns = @JoinColumn(name = "theCountryCode"))
 	private int theCountryCode;
 	@Column
+	@CreationTimestamp
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private Date dtReported;
+	private LocalDateTime dtReported;
 	@JoinTable(name = "UsersAccounts", joinColumns = @JoinColumn(name = "reportedBy"), inverseJoinColumns = @JoinColumn(name = "userName"))
 	private String reportedBy;
 	@Column
@@ -49,11 +50,7 @@ public class Infections {
 		this.id = id;
 	}
 
-	public Date getDtReported() {
-		return dtReported;
-	}
-
-	public void setDtReported(Date dtReported) {
+	public void setDtReported(LocalDateTime dtReported) {
 		this.dtReported = dtReported;
 	}
 
@@ -65,12 +62,8 @@ public class Infections {
 		this.theCountryCode = countryCode;
 	}
 
-	public Date getDateReported() {
+	public LocalDateTime getDtReported() {
 		return dtReported;
-	}
-
-	public void setDateReported(Date dateReported) {
-		this.dtReported = dateReported;
 	}
 
 	public String getReportedBy() {
