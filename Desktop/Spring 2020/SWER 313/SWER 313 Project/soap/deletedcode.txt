@@ -1,0 +1,4 @@
+String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
+	        		.path(file.getOriginalFilename())
+	                .toUriString();
+	        return fileDownloadUri;
