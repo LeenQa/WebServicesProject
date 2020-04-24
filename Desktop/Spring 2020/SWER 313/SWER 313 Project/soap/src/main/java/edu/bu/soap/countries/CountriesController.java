@@ -54,9 +54,9 @@ public class CountriesController {
     @GetMapping("/country/{countryCode}")
     private String getCountries(@PathVariable("countryCode") int countryCode) {
     //	countriesService.getAllByCode(countryCode)
-    	 ArrayList<CountriesInfections> map = new ArrayList<>();
+    	// ArrayList<CountriesInfections> map = new ArrayList<>();
     	 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    	List<Object[]> list= countriesService.getAllByCode(countryCode);
+    	/*List<Object[]> list= countriesService.getAllByCode(countryCode);
     	for (Object[] var : list) {
     		String name= (String) var[1];
     		int code = (int) var[0];
@@ -66,10 +66,11 @@ public class CountriesController {
     		
     		CountriesInfections record = new CountriesInfections(code,name,deaths,infections,recoveries);
     		map.add(record);
-    	}
-    	 String  result = gson.toJson(map);
+    	}*/
+    	 String  result = gson.toJson(countriesService.getAllByCode(countryCode));
 
         return result;
+    	//return countriesService.getAllByCode(countryCode);
     }
 
 //creating a delete mapping that deletes a specified country
