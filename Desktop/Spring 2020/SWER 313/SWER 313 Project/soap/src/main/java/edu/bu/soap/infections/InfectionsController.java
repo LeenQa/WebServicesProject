@@ -4,13 +4,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -52,15 +55,22 @@ public class InfectionsController {
     }
 
 //creating put mapping that updates the infection detail
-    @PutMapping("/changesourceurl/{infectionId}")
-    private String updateSourceURL(@PathVariable("infectionId") int id, @RequestBody String sourceURL) {
+    @PutMapping("/infections/changesourceurl/{infectionId}")
+    private String updateSourceURL(@PathVariable("infectionId") int id, @RequestParam String sourceURL) {
     	Infections infection = infectionsService.getInfectionsById(id);
     	infection.setSourceURL(sourceURL);
     	
     	LocalDateTime reported = infection.getDtReported();
+    	String reportedBy = infection.getReportedBy();
     	LocalDateTime today = LocalDateTime.now();
  
-    	if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
+    	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	String name = auth.getName();
+    	
+    	if (!(name.equals(reportedBy))) {
+    		return "You can't change data that you have not entered!";
+    	}
+    	else if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
     			&& reported.getDayOfWeek()==today.getDayOfWeek()) {
     		infectionsService.saveOrUpdate(infection);
     		return "Source URL is changed successfully!";
@@ -68,14 +78,21 @@ public class InfectionsController {
 
     }
     
-    @PutMapping("/numberofinfections/{infectionId}")
-    private String updateNumOfInfections(@PathVariable("infectionId") int id, @RequestBody int infections) {
+    @PutMapping("/infections/numberofinfections/{infectionId}")
+    private String updateNumOfInfections(@PathVariable("infectionId") int id, @RequestParam int infections) {
     	Infections infection = infectionsService.getInfectionsById(id);
     	infection.setNumOfInections(infections);
     	LocalDateTime reported = infection.getDtReported();
+    	String reportedBy = infection.getReportedBy();
     	LocalDateTime today = LocalDateTime.now();
  
-    	if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
+    	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	String name = auth.getName();
+    	
+    	if (!(name.equals(reportedBy))) {
+    		return "You can't change data that you have not entered!";
+    	}
+    	else if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
     			&& reported.getDayOfWeek()==today.getDayOfWeek()) {
     		infectionsService.saveOrUpdate(infection);
     		return "Number of infections is changed successfully!";
@@ -83,14 +100,21 @@ public class InfectionsController {
     	
     }
     
-    @PutMapping("/numberofdeaths/{infectionId}")
-    private String updateNumOfDeaths(@PathVariable("infectionId") int id, @RequestBody int deaths) {
+    @PutMapping("/infections/numberofdeaths/{infectionId}")
+    private String updateNumOfDeaths(@PathVariable("infectionId") int id, @RequestParam int deaths) {
     	Infections infection = infectionsService.getInfectionsById(id);
     	infection.setNumOfDeaths(deaths);
     	LocalDateTime reported = infection.getDtReported();
+    	String reportedBy = infection.getReportedBy();
     	LocalDateTime today = LocalDateTime.now();
  
-    	if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
+    	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	String name = auth.getName();
+    	
+    	if (!(name.equals(reportedBy))) {
+    		return "You can't change data that you have not entered!";
+    	}
+    	else if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
     			&& reported.getDayOfWeek()==today.getDayOfWeek()) {
     		infectionsService.saveOrUpdate(infection);
     		return "Number of deaths is changed successfully!";
@@ -98,14 +122,21 @@ public class InfectionsController {
     	
     }
     
-    @PutMapping("/numberofrecoveries/{infectionId}")
-    private String updateNumOfRecoveries(@PathVariable("infectionId") int id, @RequestBody int recoveries) {
+    @PutMapping("/infections/numberofrecoveries/{infectionId}")
+    private String updateNumOfRecoveries(@PathVariable("infectionId") int id, @RequestParam int recoveries) {
     	Infections infection = infectionsService.getInfectionsById(id);
     	infection.setNumOfRecoveries(recoveries);
     	LocalDateTime reported = infection.getDtReported();
+    	String reportedBy = infection.getReportedBy();
     	LocalDateTime today = LocalDateTime.now();
  
-    	if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
+    	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	String name = auth.getName();
+    	
+    	if (!(name.equals(reportedBy))) {
+    		return "You can't change data that you have not entered!";
+    	}
+    	else if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
     			&& reported.getDayOfWeek()==today.getDayOfWeek()) {
     		infectionsService.saveOrUpdate(infection);
     		return "Number of recoveries is changed successfully!";
