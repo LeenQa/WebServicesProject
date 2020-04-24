@@ -32,7 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	                .antMatchers("/admin").hasRole("ADMIN")
 	                .antMatchers("/user").hasAnyRole("ADMIN", "USER")
 	                .antMatchers("/").permitAll()
-	                //.antMatchers(HttpMethod.POST, "/**").hasRole("USER")
+	                .antMatchers(HttpMethod.POST, "/registration").permitAll()
+	                .antMatchers(HttpMethod.POST, "/**").hasRole("USER")
+	                
 	                .and().cors().and().csrf().disable()
 	                .formLogin();
 	    }
