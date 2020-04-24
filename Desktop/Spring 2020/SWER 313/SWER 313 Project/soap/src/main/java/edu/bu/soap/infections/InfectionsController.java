@@ -2,6 +2,7 @@ package edu.bu.soap.infections;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 //mark class as Controller
@@ -31,20 +35,32 @@ public class InfectionsController {
 
 //creating a get mapping that retrieves all the infections detail from the database
     @GetMapping("/infections")
-    private List<Infections> getAllInfections() {
-        return infectionsService.getAllInfections();
-    }
-
-//creating a get mapping that retrieves the detail of a specific infection
-    @GetMapping("/infection/{infectionId}")
-    private Infections getInfections(@PathVariable("infectionId") int infectionId) {
-        return infectionsService.getInfectionsById(infectionId);
+    private ArrayList<Infections> getAllInfections() {
+        org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	String name = auth.getName();
+    	ArrayList<Infections> allInfections = (ArrayList<Infections>) infectionsService.getAllInfections();
+    	ArrayList<Infections> infections = new ArrayList<>();
+    	
+    	for (int i = 0; i < allInfections.size(); i++) {
+    		if (allInfections.get(i).getReportedBy().equals(name)) {
+    			infections.add(allInfections.get(i));
+    		}
+    	}
+        return infections;
     }
 
 //creating a delete mapping that deletes a specified infection
     @DeleteMapping("/infection/{infectionId}")
-    private void deleteInfection(@PathVariable("infectionId") int infectionId) {
-    	infectionsService.delete(infectionId);
+    private String deleteInfection(@PathVariable("infectionId") int infectionId) {
+    	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	String name = auth.getName();
+    	String reportedBy = infectionsService.getInfectionsById(infectionId).getReportedBy();
+    	if (name.equals(reportedBy)) {
+    		infectionsService.delete(infectionId);
+    		return "The reported infection has been deleted!";
+    	}
+    	else 
+    		return "You can't delete data you have not made!";
     }
 
 //creating post mapping that post the infection detail in the database
