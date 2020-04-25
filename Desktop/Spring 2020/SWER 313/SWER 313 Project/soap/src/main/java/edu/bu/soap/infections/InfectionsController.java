@@ -1,11 +1,9 @@
 package edu.bu.soap.infections;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,9 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 
 //mark class as Controller
@@ -59,13 +54,17 @@ public class InfectionsController {
     		infectionsService.delete(infectionId);
     		return "The reported infection has been deleted!";
     	}
-    	else 
+	 
     		return "You can't delete data you have not made!";
     }
 
 //creating post mapping that post the infection detail in the database
     @PostMapping("/infections")
     private int saveInfection(@RequestBody Infections infections) {
+    	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	infections.setReportedBy(auth.getName());
+    	LocalDateTime reported = LocalDateTime.now();
+    	infections.setDtReported(reported);
     	infectionsService.saveOrUpdate(infections);
         return infections.getId();
     }
