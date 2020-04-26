@@ -28,8 +28,8 @@ public class Infections {
 	@JoinTable(name = "Countries", joinColumns = @JoinColumn(name = "countryCode"), inverseJoinColumns = @JoinColumn(name = "theCountryCode"))
 	private int theCountryCode;
 	@Column
-	@CreationTimestamp
-	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	//@CreationTimestamp
+	//@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime dtReported;
 	@JoinTable(name = "UsersAccounts", joinColumns = @JoinColumn(name = "reportedBy"), inverseJoinColumns = @JoinColumn(name = "userName"))
 	private String reportedBy;
