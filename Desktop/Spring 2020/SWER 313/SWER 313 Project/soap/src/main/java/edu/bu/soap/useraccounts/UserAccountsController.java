@@ -3,6 +3,9 @@ package edu.bu.soap.useraccounts;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,14 +46,20 @@ public class UserAccountsController {
 
 //creating a get mapping that retrieves the detail of a specific userAccount
 	@GetMapping("/useraccount/{userAccountUserName}")
-	private UserAccounts getUserAccounts(@PathVariable("userAccountUserName") String userAccountUserName) {
-		return userAccountsService.getUserAccountsByUserName(userAccountUserName);
+	private UserAccounts getUserAccounts(@PathVariable("userAccountUserName") String userAccountUserName) {	
+		return userAccountsService.getUserAccountsByUserName(userAccountUserName);	
 	}
 
 //creating a delete mapping that deletes a specified userAccount
 	@DeleteMapping("/useraccount/{userAccountUserName}")
-	private void deleteUserAccount(@PathVariable("userAccountUserName") String userAccountUserName) {
+	private String deleteUserAccount(@PathVariable("userAccountUserName") String userAccountUserName) {
+		try {
 		userAccountsService.delete(userAccountUserName);
+		return "Deleted successfully.";
+		}
+		catch (Exception e) {
+			return "Make sure to enter a right username.";
+		}
 	}
 
 //creating post mapping that post the userAccount detail in the database
@@ -70,7 +79,7 @@ public class UserAccountsController {
 
 				System.out.println("error loading photo");
 			}
-		}
+		} else  return new ResponseEntity<String>("Make sure to upload your photo.",HttpStatus.BAD_REQUEST);
 		if (email.length() == 0 || name.length() == 0 || password.length() == 0 || birthDate == null) {
 			 return new ResponseEntity<String>("Make sure all field are filled.",HttpStatus.BAD_REQUEST);
 		} else 
@@ -101,6 +110,7 @@ public class UserAccountsController {
 	@PutMapping("/changepassword/{userAccountUserName}")
 	private ResponseEntity<String> updatePassword(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String password) {
+		try {
 		UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
 		if (!password.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}")) {
 			return new ResponseEntity<String>(
@@ -111,21 +121,35 @@ public class UserAccountsController {
 			userAccountsService.saveOrUpdate(userAccount);
 			return new ResponseEntity<String>("You have changed your password successfully!", HttpStatus.OK);
 		}
+		} catch(Exception e) {
+			return new ResponseEntity<String>("Make sure to enter a right username.", HttpStatus.BAD_REQUEST);
+		}
 	}
+		
 
 	// creating put mapping that updates the userAccount detail
 	@PutMapping("/changeemail/{userAccountUserName}")
-	private void updateEmail(@PathVariable("userAccountUserName") String userAccountUserName,
+	private ResponseEntity<String> updateEmail(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String email) {
+		try {
 		UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
+		if (!email.matches("^(.+)@(.+)$")) {
+			return new ResponseEntity<String>("Make sure that you entered a valid email", HttpStatus.BAD_REQUEST);
+		} else {
 		userAccount.setEmail(email);
 		userAccountsService.saveOrUpdate(userAccount);
+		return new ResponseEntity<String>("Email changed successfully to " + email, HttpStatus.OK);
+		}
+		} catch(Exception e) {
+			return new ResponseEntity<String>("Make sure to enter a right username.", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	// creating put mapping that updates the userAccount detail
 	@PutMapping("/changeuserphoto/{userAccountUserName}")
 	private ResponseEntity<String> updateUserPhoto(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestParam("userPhoto") MultipartFile file) {
+		try {
 		UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
 		byte[] photo;
 		try {
@@ -135,17 +159,31 @@ public class UserAccountsController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		return new ResponseEntity<String>("Photo is uploaded successfully!!", HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<String>("Make sure to enter a right username.", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	// creating put mapping that updates the userAccount detail
 	@PutMapping("/changebirthdate/{userAccountUserName}")
 	private ResponseEntity<String> updateBirthDate(@PathVariable("userAccountUserName") String userAccountUserName,
-			@RequestBody Date birthDate) {
+			@RequestBody String birthDate) throws ParseException {
+		try {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date = (java.util.Date) df.parse(birthDate);
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+			System.out.println(birthDate);
+			System.out.println(date);
+			System.out.println(sqlDate);
 		UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
-		userAccount.setBirthDate(birthDate);
+		userAccount.setBirthDate(sqlDate);
 		userAccountsService.saveOrUpdate(userAccount);
 		return new ResponseEntity<String>("You have changed your birth date successfully!", HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<String>("Make sure to enter a right username and a right date format.", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

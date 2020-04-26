@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,47 +53,65 @@ public class InfectionsController {
 
 //creating a delete mapping that deletes a specified infection
     @DeleteMapping("/infection/{infectionId}")
-    private String deleteInfection(@PathVariable("infectionId") int infectionId) {
+    private ResponseEntity<String> deleteInfection(@PathVariable("infectionId") int infectionId) {
+    	try {
     	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	String name = auth.getName();
     	String reportedBy = infectionsService.getInfectionsById(infectionId).getReportedBy();
     	if (name.equals(reportedBy)) {
     		infectionsService.delete(infectionId);
-    		return "The reported infection has been deleted!";
+    		return new ResponseEntity<String>( "The reported infection has been deleted!", HttpStatus.OK);
     	}
     	else 
-    		return "You can't delete data you have not made!";
+    	return new ResponseEntity<String>("You can't delete data you have not made!", HttpStatus.BAD_REQUEST);
+    	
+    	} catch(Exception e) {
+			return new ResponseEntity<String>("Make sure to enter a right ifection ID.", HttpStatus.BAD_REQUEST);
+		}
     }
 
 //creating post mapping that post the infection detail in the database
     @PostMapping("/infections")
-    private int saveInfection(@RequestBody Infections infections) {
+    private ResponseEntity<String> saveInfection(@RequestBody Infections infections) {
+    	try {
+    		String sourceURL = infections.getSourceURL();
+    		if(sourceURL.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
     	infectionsService.saveOrUpdate(infections);
-        return infections.getId();
+        return new ResponseEntity<String>("Infection" + infections.getId() +" has been reported successfully! ", HttpStatus.OK);
+    		} else return new ResponseEntity<String>("Make sure to enter a right URL.", HttpStatus.BAD_REQUEST);
+    }
+	catch(Exception e2) {
+		return new ResponseEntity<String>("Make sure you entered correct data", HttpStatus.BAD_REQUEST);
+	}
     }
 
 //creating put mapping that updates the infection detail
     @PutMapping("/infections/changesourceurl/{infectionId}")
-    private String updateSourceURL(@PathVariable("infectionId") int id, @RequestParam String sourceURL) {
-    	Infections infection = infectionsService.getInfectionsById(id);
-    	infection.setSourceURL(sourceURL);
-    	
-    	LocalDateTime reported = infection.getDtReported();
-    	String reportedBy = infection.getReportedBy();
-    	LocalDateTime today = LocalDateTime.now();
- 
-    	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	String name = auth.getName();
-    	
-    	if (!(name.equals(reportedBy))) {
-    		return "You can't change data that you have not entered!";
-    	}
-    	else if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
-    			&& reported.getDayOfWeek()==today.getDayOfWeek()) {
-    		infectionsService.saveOrUpdate(infection);
-    		return "Source URL is changed successfully!";
-    	} else return "You can only change your infections data in the same day you put it.";
+    private ResponseEntity<String> updateSourceURL(@PathVariable("infectionId") int id, @RequestParam String sourceURL) {
+    	try {
+if(sourceURL.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
+	Infections infection = infectionsService.getInfectionsById(id);
+	infection.setSourceURL(sourceURL);
+	
+	LocalDateTime reported = infection.getDtReported();
+	String reportedBy = infection.getReportedBy();
+	LocalDateTime today = LocalDateTime.now();
 
+	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	String name = auth.getName();
+	
+	if (!(name.equals(reportedBy))) {
+		return new ResponseEntity<String>("You can't change data that you have not entered!", HttpStatus.BAD_REQUEST);
+	}
+	else if(reported.getDayOfYear()==today.getDayOfYear()&& today.getDayOfMonth()==reported.getDayOfMonth() 
+			&& reported.getDayOfWeek()==today.getDayOfWeek()) {
+		infectionsService.saveOrUpdate(infection);
+		return new ResponseEntity<String>("Source URL is changed successfully!", HttpStatus.OK);
+	} else return new ResponseEntity<String>("You can only change your infections data in the same day you put it.", HttpStatus.BAD_REQUEST);	
+} else return new ResponseEntity<String>("Make sure to enter a right URL.", HttpStatus.BAD_REQUEST);
+    	} catch(Exception e) {
+			return new ResponseEntity<String>("Make sure to enter a right ifection ID.", HttpStatus.BAD_REQUEST);
+		}
     }
     
     @PutMapping("/infections/numberofinfections/{infectionId}")

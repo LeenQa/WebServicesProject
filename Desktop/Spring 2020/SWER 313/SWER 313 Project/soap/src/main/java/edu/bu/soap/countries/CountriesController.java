@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +59,7 @@ public class CountriesController {
     private String getCountries(@PathVariable("countryCode") int countryCode) {
     //	countriesService.getAllByCode(countryCode)
     	// ArrayList<CountriesInfections> map = new ArrayList<>();
+    	try {
     	 Gson gson = new GsonBuilder().setPrettyPrinting().create();
     	List<Object[]> list= countriesService.getAllByCode(countryCode);
     	CountriesInfections record = null;
@@ -71,27 +74,65 @@ public class CountriesController {
     
     	 String  result = gson.toJson(record);
 
-        return result;
+        return result; }
+    	catch(Exception e) {
+    		return "Make sure you entered a right id";
+    	}
     	//return countriesService.getAllByCode(countryCode);
     }
-
 //creating a delete mapping that deletes a specified country
     @DeleteMapping("/country/{countryCode}")
-    private void deleteCountry(@PathVariable("countryCode") int countryCode) {
+    private ResponseEntity<String> deleteCountry(@PathVariable("countryCode") int countryCode) {
+    	try {
     	countriesService.delete(countryCode);
+    	return new ResponseEntity<String>("The record have been deleted.", HttpStatus.OK);
+    	} 
+    	catch(Exception e) {
+    		return new ResponseEntity<String>("Make sure you entered a right id", HttpStatus.BAD_REQUEST);
+    	}
     }
+
+  //creating a delete mapping that deletes a specified country
+   
+    @GetMapping("/**")
+    private ResponseEntity<String> getwrongPath() {
+    	return new ResponseEntity<String>("You requested a wrong path.", HttpStatus.BAD_REQUEST);
+    }
+    
+    @PostMapping("/**")
+    private ResponseEntity<String> postwrongPath() {
+    	return new ResponseEntity<String>("You requested a wrong path.", HttpStatus.BAD_REQUEST);
+    }
+    
+    @PutMapping("/**")
+    private ResponseEntity<String> putwrongPath() {
+    	return new ResponseEntity<String>("You requested a wrong path.", HttpStatus.BAD_REQUEST);
+    }
+    
+    @DeleteMapping("/**")
+    private ResponseEntity<String> deletewrongPath() {
+    	return new ResponseEntity<String>("You requested a wrong path.", HttpStatus.BAD_REQUEST);
+    }
+    
+    
 
 //creating post mapping that post the country detail in the database
     @PostMapping("/countries")
-    private int saveCountry(@RequestBody Countries countries) {
+    private ResponseEntity<String> saveCountry(@RequestBody Countries countries) {
+    	try {
     	countriesService.saveOrUpdate(countries);
-        return countries.getCountryCode();
+    	return new ResponseEntity<String>("New country record is added successfully!", HttpStatus.OK);
+    	}
+    	catch(Exception e2) {
+    		return new ResponseEntity<String>("Make sure you entered correct data", HttpStatus.BAD_REQUEST);
+    	}
     }
 
 //creating put mapping that updates the country detail
-    @PutMapping("/countries")
+   /* @PutMapping("/countries")
     private Countries update(@RequestBody Countries countries) {
     	countriesService.saveOrUpdate(countries);
         return countries;
-    }
+    }*/
+    
 }
