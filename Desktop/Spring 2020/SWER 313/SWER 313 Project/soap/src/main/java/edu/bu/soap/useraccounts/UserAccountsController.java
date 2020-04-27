@@ -7,6 +7,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,12 +173,10 @@ public class UserAccountsController {
 	private ResponseEntity<String> updateBirthDate(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String birthDate) throws ParseException {
 		try {
+			TimeZone.setDefault(TimeZone.getTimeZone("UTC")); //to get the accurate date
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date date = (java.util.Date) df.parse(birthDate);
-			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-			System.out.println(birthDate);
-			System.out.println(date);
-			System.out.println(sqlDate);
+
 		UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
 		userAccount.setBirthDate(date);
 		userAccountsService.saveOrUpdate(userAccount);

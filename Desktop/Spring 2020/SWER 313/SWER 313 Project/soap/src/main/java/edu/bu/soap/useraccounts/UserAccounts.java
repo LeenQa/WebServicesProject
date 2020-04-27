@@ -1,6 +1,7 @@
 package edu.bu.soap.useraccounts;
 
 import java.util.Date;
+import java.util.TimeZone;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -29,7 +30,6 @@ public class UserAccounts {
 	@Column
 	private String userPassword;
 	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birthDate;
 	@Lob
 	private byte[] userPhoto;
@@ -61,6 +61,7 @@ public class UserAccounts {
 	}
 
 	public void setBirthDate(Date date) {
+		
 		this.birthDate = date;
 	}
 
