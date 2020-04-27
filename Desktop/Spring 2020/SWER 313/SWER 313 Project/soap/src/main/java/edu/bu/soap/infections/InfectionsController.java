@@ -3,6 +3,7 @@ package edu.bu.soap.infections;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,6 +70,7 @@ public class InfectionsController {
     @PostMapping("/infections")
     private ResponseEntity<String> saveInfection(@RequestBody Infections infections) {
     	try {
+    		TimeZone.setDefault(TimeZone.getTimeZone("GMT+3:00"));
     		String sourceURL = infections.getSourceURL();
     		if(sourceURL.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
     	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
