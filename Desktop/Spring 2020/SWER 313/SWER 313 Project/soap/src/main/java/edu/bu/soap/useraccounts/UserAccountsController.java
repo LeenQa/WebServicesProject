@@ -178,7 +178,7 @@ public class UserAccountsController {
 			System.out.println(date);
 			System.out.println(sqlDate);
 		UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
-		userAccount.setBirthDate(sqlDate);
+		userAccount.setBirthDate(date);
 		userAccountsService.saveOrUpdate(userAccount);
 		return new ResponseEntity<String>("You have changed your birth date successfully!", HttpStatus.OK);
 		} catch(Exception e) {

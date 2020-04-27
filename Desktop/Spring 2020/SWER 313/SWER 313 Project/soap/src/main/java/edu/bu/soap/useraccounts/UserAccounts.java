@@ -1,6 +1,6 @@
 package edu.bu.soap.useraccounts;
 
-import java.sql.Date;
+import java.util.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -60,8 +60,8 @@ public class UserAccounts {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthDate(Date date) {
+		this.birthDate = date;
 	}
 
 	public byte[] getUserPhoto() {

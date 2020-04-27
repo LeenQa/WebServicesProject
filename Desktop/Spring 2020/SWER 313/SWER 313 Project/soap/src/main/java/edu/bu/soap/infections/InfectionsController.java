@@ -57,33 +57,25 @@ public class InfectionsController {
     		infectionsService.delete(infectionId);
     		return new ResponseEntity<String>( "The reported infection has been deleted!", HttpStatus.OK);
     	}
-<<<<<<< HEAD
     	else 
     	return new ResponseEntity<String>("You can't delete data you have not made!", HttpStatus.BAD_REQUEST);
     	
     	} catch(Exception e) {
 			return new ResponseEntity<String>("Make sure to enter a right ifection ID.", HttpStatus.BAD_REQUEST);
 		}
-=======
-	 
-    		return "You can't delete data you have not made!";
->>>>>>> 3e26133476b504da63bb67885114aee2cbd5c578
     }
 
 //creating post mapping that post the infection detail in the database
     @PostMapping("/infections")
-<<<<<<< HEAD
     private ResponseEntity<String> saveInfection(@RequestBody Infections infections) {
     	try {
     		String sourceURL = infections.getSourceURL();
     		if(sourceURL.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
-=======
-    private int saveInfection(@RequestBody Infections infections) {
     	org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	infections.setReportedBy(auth.getName());
     	LocalDateTime reported = LocalDateTime.now();
     	infections.setDtReported(reported);
->>>>>>> 3e26133476b504da63bb67885114aee2cbd5c578
+
     	infectionsService.saveOrUpdate(infections);
         return new ResponseEntity<String>("Infection" + infections.getId() +" has been reported successfully! ", HttpStatus.OK);
     		} else return new ResponseEntity<String>("Make sure to enter a right URL.", HttpStatus.BAD_REQUEST);
