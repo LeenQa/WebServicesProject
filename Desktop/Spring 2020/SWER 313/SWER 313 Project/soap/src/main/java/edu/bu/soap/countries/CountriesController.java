@@ -1,9 +1,7 @@
 package edu.bu.soap.countries;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.math.*; 
-import java.io.*; 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +78,7 @@ public class CountriesController {
     	}
     	//return countriesService.getAllByCode(countryCode);
     }
+    
 //creating a delete mapping that deletes a specified country
     @DeleteMapping("/country/{countryCode}")
     private ResponseEntity<String> deleteCountry(@PathVariable("countryCode") int countryCode) {
@@ -92,7 +91,6 @@ public class CountriesController {
     	}
     }
 
-  //creating a delete mapping that deletes a specified country
    
     @GetMapping("/**")
     private ResponseEntity<String> getwrongPath() {

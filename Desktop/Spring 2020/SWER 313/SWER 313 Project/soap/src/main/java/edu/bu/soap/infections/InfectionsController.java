@@ -2,7 +2,6 @@ package edu.bu.soap.infections;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;

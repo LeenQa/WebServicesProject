@@ -1,6 +1,5 @@
 package edu.bu.soap.infections;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -11,10 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 //mark class as an Entity   
 @Entity

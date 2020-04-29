@@ -8,10 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
@@ -34,6 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	                .antMatchers("/").permitAll()
 	                .antMatchers(HttpMethod.POST, "/registration").permitAll()
 	                .antMatchers(HttpMethod.POST, "/**").hasRole("USER")
+	                .antMatchers(HttpMethod.PUT, "/**").hasRole("USER")
+	                .antMatchers(HttpMethod.DELETE, "/**").hasRole("USER")
 	                
 	                .and().cors().and().csrf().disable()
 	                .formLogin();

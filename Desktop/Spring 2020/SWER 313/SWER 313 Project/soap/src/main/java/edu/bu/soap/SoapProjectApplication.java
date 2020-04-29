@@ -19,6 +19,6 @@ public class SoapProjectApplication {
 	}
 	@PostConstruct
     public void init(){
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+3:00"));   // It will set UTC timezone
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+3:00"));   // change to Palestine's timezone
     }
 }

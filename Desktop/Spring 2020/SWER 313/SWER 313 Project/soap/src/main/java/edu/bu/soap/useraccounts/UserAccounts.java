@@ -1,8 +1,9 @@
 package edu.bu.soap.useraccounts;
 
-import java.util.Date;
-import java.util.TimeZone;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,11 +14,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-
 //mark class as an Entity   
 @Entity
 //defining class name as Table name  
@@ -27,9 +23,8 @@ public class UserAccounts {
 	
 	@Id
 	@Column
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String userName;
-	@Column
+	@Column	
 	private String userPassword;
 	@Column
 	private Date birthDate;
@@ -84,15 +79,6 @@ public class UserAccounts {
 		this.photoID = photoID;
 	}
 	
-	public UserAccounts(String userName, String userPassword, Date birthDate,
-			 String email,String photoID, LocalDateTime creationDateTime) {
-		this.userName = userName;
-		this.userPassword = userPassword;
-		this.birthDate = birthDate;
-		this.email = email;
-		this.creationDateTime = creationDateTime;
-		this.photoID = photoID;
-	}
 
 	public String getPhotoID() {
 		return photoID;
@@ -121,16 +107,8 @@ public class UserAccounts {
 	}
 
 	public String toString() {
-		
-		/*return "{\r\n" + 
-				"        \"userName\": \""+ this.userName + "\",\r" + 
-				"        \"userPassword\": \""+this.userPassword+"\",\r" + 
-				"        \"birthDate\": \""+this.birthDate+"\",\r" + 
-				"        \"creationDateTime\": \""+this.getCreationDateTime()+"\",\r" + 
-				"        \"email\": \""+this.email+"\",\r" + 
-				"        \"photoID\": \""+this.photoID+"\"\r\"" + 
-				"    }\r";*/
-		return "{ \"userName\" : \"" + this.userName + "\" , \"userPassword\" : \""+this.userPassword+ "\" ,\"birthDate\" : \""+this.birthDate+"\" ,\"creationDateTime\" : \""
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		return "{ \"userName\" : \"" + this.userName+ "\" ,\"birthDate\" : \""+df.format(this.birthDate)+"\" ,\"creationDateTime\" : \""
 				+this.getCreationDateTime()+ "\" ,\"email\" : \""+this.email+"\" ,\"photoID\" : \"" +this.photoID+ "\"}";
 		
 	}
