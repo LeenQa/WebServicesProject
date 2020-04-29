@@ -6,11 +6,13 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 //mark class as Controller	
 @RestController
 public class UserAccountsController {
@@ -42,8 +47,10 @@ public class UserAccountsController {
 
 //creating a get mapping that retrieves all the userAccounts detail from the database
 	@GetMapping("/useraccounts")
-	private List<UserAccounts> getAllUserAccounts() {
-		return userAccountsService.getAllUserAccounts();
+	private String getAllUserAccounts() {
+		List<UserAccounts> userAccounts = new ArrayList<UserAccounts>();
+		userAccountsService.getAllUserAccounts().forEach(userAccounts1 -> userAccounts.add(new UserAccounts(userAccounts1.getUserName(),userAccounts1.getUserPassword(),userAccounts1.getBirthDate(),userAccounts1.getEmail(),userAccounts1.getPhotoID(),userAccounts1.getCreationDateTime())));
+		return userAccounts.toString();	
 	}
 
 //creating a get mapping that retrieves the detail of a specific userAccount
@@ -72,9 +79,10 @@ public class UserAccountsController {
 			HttpServletRequest request, HttpServletResponse response) {
 		String fileDownloadUri = null;
 		byte[] photo = null;
+		String fileName=null;
 		if (!file.isEmpty()) {
 			try {
-				String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+				fileName = StringUtils.cleanPath(file.getOriginalFilename());
 				photo = file.getBytes();
 
 			} catch (IOException e) {
@@ -97,7 +105,7 @@ public class UserAccountsController {
 			return new ResponseEntity<String>("Make sure that you entered a valid email", HttpStatus.BAD_REQUEST);
 		}
 		password = new SecurityConfiguration().getPasswordEncoder().encode(password);
-		UserAccounts userAccounts = new UserAccounts(name, password, birthDate, photo, email);
+		UserAccounts userAccounts = new UserAccounts(name, password, birthDate, fileName, photo, email);
 		fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(name)
 				.toUriString();
 		userAccountsService.saveOrUpdate(userAccounts);
@@ -156,6 +164,7 @@ public class UserAccountsController {
 		byte[] photo;
 		try {
 			photo = file.getBytes();
+			
 			userAccount.setUserPhoto(photo);
 			userAccountsService.saveOrUpdate(userAccount);
 		} catch (IOException e) {

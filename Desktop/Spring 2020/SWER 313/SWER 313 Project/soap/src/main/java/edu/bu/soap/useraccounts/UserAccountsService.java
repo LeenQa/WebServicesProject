@@ -22,6 +22,7 @@ public class UserAccountsService {
 			userAccountsRepository.findAll().forEach(userAccounts1 -> userAccounts.add(userAccounts1));
 			return userAccounts;
 		}
+		
 
 	//getting a specific record by using the method findById() of CrudRepository  
 		public UserAccounts getUserAccountsByUserName(String userName) {
