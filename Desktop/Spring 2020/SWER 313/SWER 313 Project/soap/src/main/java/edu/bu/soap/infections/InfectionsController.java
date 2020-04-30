@@ -2,6 +2,7 @@ package edu.bu.soap.infections;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.bu.soap.countries.CountriesService;
+
 //mark class as Controller
 @RestController
 public class InfectionsController {
 //autowire the infectionsService class
 	@Autowired
 	InfectionsService infectionsService;
+	@Autowired
+	CountriesService countriesService;
 
 //creating a get mapping that retrieves all the infections details from the database that are made by the logged in user
 	@GetMapping("/infections")
@@ -63,7 +68,11 @@ public class InfectionsController {
 	@PostMapping("/infections")
 	private ResponseEntity<String> saveInfection(@RequestBody Infections infections) {
 		try {
-			TimeZone.setDefault(TimeZone.getTimeZone("GMT+3:00"));
+			if (!getCountryCodes().contains(Integer.valueOf(infections.getCountryCode()))) {
+				return new ResponseEntity<String>("The country you are trying to add a record for is not present",
+						HttpStatus.BAD_REQUEST);
+			} else
+				TimeZone.setDefault(TimeZone.getTimeZone("GMT+3:00"));
 			String sourceURL = infections.getSourceURL();
 			if (sourceURL.matches("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
 				org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext()
@@ -82,7 +91,8 @@ public class InfectionsController {
 		}
 	}
 
-	//creating put mapping that changes the url of a specific infection in the same day it was recorded in.
+	// creating put mapping that changes the url of a specific infection in the same
+	// day it was recorded in.
 	@PutMapping("/infections/changesourceurl/{infectionId}")
 	private ResponseEntity<String> updateSourceURL(@PathVariable("infectionId") int id,
 			@RequestParam String sourceURL) {
@@ -117,7 +127,9 @@ public class InfectionsController {
 			return new ResponseEntity<String>("Make sure to enter a right ifection ID.", HttpStatus.BAD_REQUEST);
 		}
 	}
-	//creating put mapping that updates the number of infections in a specific infection in the same day it was recorded in.
+
+	// creating put mapping that updates the number of infections in a specific
+	// infection in the same day it was recorded in.
 	@PutMapping("/infections/numberofinfections/{infectionId}")
 	private String updateNumOfInfections(@PathVariable("infectionId") int id, @RequestParam int infections) {
 		Infections infection = infectionsService.getInfectionsById(id);
@@ -139,7 +151,9 @@ public class InfectionsController {
 			return "You can only change your infections data in the same day you put it.";
 
 	}
-	//creating put mapping that updates the number of deaths in a specific infection in the same day it was recorded in.
+
+	// creating put mapping that updates the number of deaths in a specific
+	// infection in the same day it was recorded in.
 	@PutMapping("/infections/numberofdeaths/{infectionId}")
 	private String updateNumOfDeaths(@PathVariable("infectionId") int id, @RequestParam int deaths) {
 		Infections infection = infectionsService.getInfectionsById(id);
@@ -161,8 +175,9 @@ public class InfectionsController {
 			return "You can only change your infections data in the same day you put it.";
 
 	}
-	
-	//creating put mapping that updates the number of recoveries in a specific infection in the same day it was recorded in.
+
+	// creating put mapping that updates the number of recoveries in a specific
+	// infection in the same day it was recorded in.
 	@PutMapping("/infections/numberofrecoveries/{infectionId}")
 	private String updateNumOfRecoveries(@PathVariable("infectionId") int id, @RequestParam int recoveries) {
 		Infections infection = infectionsService.getInfectionsById(id);
@@ -183,5 +198,16 @@ public class InfectionsController {
 		} else
 			return "You can only change your infections data in the same day you put it.";
 
+	}
+
+	// method to get countries codes
+	ArrayList<Integer> getCountryCodes() {
+		ArrayList<Integer> countrycodes = new ArrayList<Integer>();
+		List<Object[]> list = countriesService.getcountryCodes();
+		for (Object[] var : list) {
+			int code = (int) var[0];
+			countrycodes.add(code);
+		}
+		return countrycodes;
 	}
 }

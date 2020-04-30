@@ -128,12 +128,4 @@ public class CountriesController {
 		}
 	}
 
-//creating put mapping that updates the country details
-
-	@PutMapping("/countries")
-	private Countries update(@RequestBody Countries countries) {
-		countriesService.saveOrUpdate(countries);
-		return countries;
-	}
-
 }

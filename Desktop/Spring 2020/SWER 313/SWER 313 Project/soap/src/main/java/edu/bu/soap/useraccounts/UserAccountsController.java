@@ -1,7 +1,6 @@
 package edu.bu.soap.useraccounts;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,8 +68,8 @@ public class UserAccountsController {
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ResponseEntity<String> registerUser(@RequestParam("userName") String name,
 			@RequestParam("userPassword") String password, @RequestParam("email") String email,
-			@RequestParam("birthDate") Date birthDate, @RequestParam("userPhoto") MultipartFile file,
-			HttpServletRequest request, HttpServletResponse response) {
+			@RequestParam("birthDate") String birthDate, @RequestParam("userPhoto") MultipartFile file,
+			HttpServletRequest request, HttpServletResponse response) throws ParseException {
 		byte[] photo = null;
 		String fileName = null;
 		if (!file.isEmpty()) {
@@ -97,8 +96,11 @@ public class UserAccountsController {
 		} else if (!email.matches("^(.+)@(.+)$")) {
 			return new ResponseEntity<String>("Make sure that you entered a valid email", HttpStatus.BAD_REQUEST);
 		}
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date = (java.util.Date) df.parse(birthDate);
 		password = new SecurityConfiguration().getPasswordEncoder().encode(password);
-		UserAccounts userAccounts = new UserAccounts(name, password, birthDate, fileName, photo, email);
+		UserAccounts userAccounts = new UserAccounts(name, password, date, fileName, photo, email);
 		userAccountsService.saveOrUpdate(userAccounts);
 
 		return new ResponseEntity<String>("You have been registred successfully " + userAccounts.getUserName() + "!!",
