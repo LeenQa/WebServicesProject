@@ -20,11 +20,11 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table
 @DynamicUpdate
 public class UserAccounts {
-	
+
 	@Id
 	@Column
 	private String userName;
-	@Column	
+	@Column
 	private String userPassword;
 	@Column
 	private Date birthDate;
@@ -35,10 +35,12 @@ public class UserAccounts {
 	private LocalDateTime creationDateTime;
 	@Column
 	private String email;
-	
+
 	private String photoID;
-	
-	public UserAccounts () {}
+
+	public UserAccounts() {
+	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -60,7 +62,7 @@ public class UserAccounts {
 	}
 
 	public void setBirthDate(Date date) {
-		
+
 		this.birthDate = date;
 	}
 
@@ -68,8 +70,8 @@ public class UserAccounts {
 		return userPhoto;
 	}
 
-	public UserAccounts(String userName, String userPassword, Date birthDate,String photoID, byte[] userPhoto,
-			 String email) {
+	public UserAccounts(String userName, String userPassword, Date birthDate, String photoID, byte[] userPhoto,
+			String email) {
 		super();
 		this.userName = userName;
 		this.userPassword = userPassword;
@@ -78,14 +80,15 @@ public class UserAccounts {
 		this.email = email;
 		this.photoID = photoID;
 	}
-	
 
 	public String getPhotoID() {
 		return photoID;
 	}
+
 	public void setPhotoID(String photoID) {
 		this.photoID = photoID;
 	}
+
 	public void setUserPhoto(byte[] userPhoto) {
 		this.userPhoto = userPhoto;
 	}
@@ -108,8 +111,9 @@ public class UserAccounts {
 
 	public String toString() {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		return "{ \"userName\" : \"" + this.userName+ "\" ,\"birthDate\" : \""+df.format(this.birthDate)+"\" ,\"creationDateTime\" : \""
-				+this.getCreationDateTime()+ "\" ,\"email\" : \""+this.email+"\" ,\"photoID\" : \"" +this.photoID+ "\"}";
-		
+		return "{ \"userName\" : \"" + this.userName + "\" ,\"birthDate\" : \"" + df.format(this.birthDate)
+				+ "\" ,\"creationDateTime\" : \"" + this.getCreationDateTime() + "\" ,\"email\" : \"" + this.email
+				+ "\" ,\"photoID\" : \"" + this.photoID + "\"}";
+
 	}
 }

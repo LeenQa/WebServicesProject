@@ -12,32 +12,32 @@ public class UserAccountsService {
 
 	@Autowired
 	UserAccountsRepository userAccountsRepository;
-	
-	//getting all userAccounts record by using the method findaAll() of CrudRepository  
-		public List<UserAccounts> getAllUserAccounts() {
-			List<UserAccounts> userAccounts = new ArrayList<UserAccounts>();
-			userAccountsRepository.findAll().forEach(userAccounts1 -> userAccounts.add(userAccounts1));
-			return userAccounts;
-		}
-		
 
-	//getting a specific record by using the method findById() of CrudRepository  
-		public UserAccounts getUserAccountsByUserName(String userName) {
-			return userAccountsRepository.findById(userName).get();
-		}
+	// getting all userAccounts record by using the method findaAll() of
+	// CrudRepository
+	public List<UserAccounts> getAllUserAccounts() {
+		List<UserAccounts> userAccounts = new ArrayList<UserAccounts>();
+		userAccountsRepository.findAll().forEach(userAccounts1 -> userAccounts.add(userAccounts1));
+		return userAccounts;
+	}
 
-	//saving a specific record by using the method save() of CrudRepository  
-		public void saveOrUpdate(UserAccounts userAccounts) {
-			userAccountsRepository.save(userAccounts);
-		}
+	// getting a specific record by using the method findById() of JpaRepository
+	public UserAccounts getUserAccountsByUserName(String userName) {
+		return userAccountsRepository.findById(userName).get();
+	}
 
-	//deleting a specific record by using the method deleteById() of CrudRepository  
-		public void delete(String userName) {
-			userAccountsRepository.deleteById(userName);
-		}
+	// saving a specific record by using the method save() of JpaRepository
+	public void saveOrUpdate(UserAccounts userAccounts) {
+		userAccountsRepository.save(userAccounts);
+	}
 
-	//updating a record  
-		public void update(UserAccounts userAccounts, String userAccountUserName) {
-			userAccountsRepository.save(userAccounts);
-		}
+	// deleting a specific record by using the method deleteById() of JpaRepository
+	public void delete(String userName) {
+		userAccountsRepository.deleteById(userName);
+	}
+
+	// updating a record
+	public void update(UserAccounts userAccounts, String userAccountUserName) {
+		userAccountsRepository.save(userAccounts);
+	}
 }

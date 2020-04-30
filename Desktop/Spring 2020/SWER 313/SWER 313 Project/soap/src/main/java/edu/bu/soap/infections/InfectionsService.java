@@ -6,14 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 //defining the business logic  
 @Service
 public class InfectionsService {
 	@Autowired
 	InfectionsRepository infectionsRepository;
 
-//getting all infections record by using the method findaAll() of CrudRepository  
+//getting all infections records by using the method findaAll() of CrudRepository  
 	public List<Infections> getAllInfections() {
 		List<Infections> infections = new ArrayList<Infections>();
 		infectionsRepository.findAll().forEach(infections1 -> infections.add(infections1));
@@ -25,12 +24,12 @@ public class InfectionsService {
 		return infectionsRepository.findById(id).get();
 	}
 
-//saving a specific record by using the method save() of CrudRepository  
+//saving a specific infection record by using the method save() of CrudRepository  
 	public void saveOrUpdate(Infections infections) {
 		infectionsRepository.save(infections);
 	}
 
-//deleting a specific record by using the method deleteById() of CrudRepository  
+//deleting a specific infection record by using the method deleteById() of CrudRepository  
 	public void delete(int id) {
 		infectionsRepository.deleteById(id);
 	}

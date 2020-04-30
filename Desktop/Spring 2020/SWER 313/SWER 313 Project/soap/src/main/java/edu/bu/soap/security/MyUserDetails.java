@@ -15,12 +15,13 @@ public class MyUserDetails implements UserDetails {
 	private String userName;
 	private String password;
 
+	// get the user's username and password
 	public MyUserDetails(UserAccounts userAccount) {
 		this.userName = userAccount.getUserName();
 		this.password = userAccount.getUserPassword();
 	}
 
-	//define that the ROLE is always USER
+	// define that the ROLE is always USER
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));

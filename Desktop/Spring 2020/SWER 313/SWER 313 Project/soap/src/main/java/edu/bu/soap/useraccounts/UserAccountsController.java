@@ -112,21 +112,21 @@ public class UserAccountsController {
 	private ResponseEntity<String> updatePassword(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String password) {
 		try {
-			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext()
+					.getAuthentication();
 			String name = auth.getName();
 			if (name.equals(userAccountUserName)) {
-			UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
-			if (!password.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}")) {
-				return new ResponseEntity<String>(
-						"Your password isn't strong enough. It should have at least one special character, one digit, one lowercase and one uppercase character, and it's length is 6 letters minimum, 16 letters maximum.",
-						HttpStatus.BAD_REQUEST);
-			} else {
-				userAccount.setUserPassword(password);
-				userAccountsService.saveOrUpdate(userAccount);
-				return new ResponseEntity<String>("You have changed your password successfully!", HttpStatus.OK);
-			}
-			}
-			else 
+				UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
+				if (!password.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,30}")) {
+					return new ResponseEntity<String>(
+							"Your password isn't strong enough. It should have at least one special character, one digit, one lowercase and one uppercase character, and it's length is 6 letters minimum, 16 letters maximum.",
+							HttpStatus.BAD_REQUEST);
+				} else {
+					userAccount.setUserPassword(password);
+					userAccountsService.saveOrUpdate(userAccount);
+					return new ResponseEntity<String>("You have changed your password successfully!", HttpStatus.OK);
+				}
+			} else
 				return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
@@ -138,19 +138,20 @@ public class UserAccountsController {
 	private ResponseEntity<String> updateEmail(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String email) {
 		try {
-			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext()
+					.getAuthentication();
 			String name = auth.getName();
 			if (name.equals(userAccountUserName)) {
-			UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
-			if (!email.matches("^(.+)@(.+)$")) {
-				return new ResponseEntity<String>("Make sure that you entered a valid email", HttpStatus.BAD_REQUEST);
-			} else {
-				userAccount.setEmail(email);
-				userAccountsService.saveOrUpdate(userAccount);
-				return new ResponseEntity<String>("Email changed successfully to " + email, HttpStatus.OK);
-			}
-			}
-			else 
+				UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
+				if (!email.matches("^(.+)@(.+)$")) {
+					return new ResponseEntity<String>("Make sure that you entered a valid email",
+							HttpStatus.BAD_REQUEST);
+				} else {
+					userAccount.setEmail(email);
+					userAccountsService.saveOrUpdate(userAccount);
+					return new ResponseEntity<String>("Email changed successfully to " + email, HttpStatus.OK);
+				}
+			} else
 				return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
@@ -162,23 +163,23 @@ public class UserAccountsController {
 	private ResponseEntity<String> updateUserPhoto(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestParam("userPhoto") MultipartFile file) {
 		try {
-			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext()
+					.getAuthentication();
 			String name = auth.getName();
 			if (name.equals(userAccountUserName)) {
-			UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
-			byte[] photo;
-			try {
-				photo = file.getBytes();
+				UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
+				byte[] photo;
+				try {
+					photo = file.getBytes();
 
-				userAccount.setUserPhoto(photo);
-				userAccountsService.saveOrUpdate(userAccount);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+					userAccount.setUserPhoto(photo);
+					userAccountsService.saveOrUpdate(userAccount);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-			return new ResponseEntity<String>("Photo is uploaded successfully!!", HttpStatus.OK);
-			}
-			else 
+				return new ResponseEntity<String>("Photo is uploaded successfully!!", HttpStatus.OK);
+			} else
 				return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
@@ -190,19 +191,19 @@ public class UserAccountsController {
 	private ResponseEntity<String> updateBirthDate(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String birthDate) throws ParseException {
 		try {
-			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext()
+					.getAuthentication();
 			String name = auth.getName();
 			if (name.equals(userAccountUserName)) {
-			TimeZone.setDefault(TimeZone.getTimeZone("UTC")); // to get the accurate date
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			java.util.Date date = (java.util.Date) df.parse(birthDate);
+				TimeZone.setDefault(TimeZone.getTimeZone("UTC")); // to get the accurate date
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				java.util.Date date = (java.util.Date) df.parse(birthDate);
 
-			UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
-			userAccount.setBirthDate(date);
-			userAccountsService.saveOrUpdate(userAccount);
-			return new ResponseEntity<String>("You have changed your birth date successfully!", HttpStatus.OK);
-			}
-			else 
+				UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
+				userAccount.setBirthDate(date);
+				userAccountsService.saveOrUpdate(userAccount);
+				return new ResponseEntity<String>("You have changed your birth date successfully!", HttpStatus.OK);
+			} else
 				return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("Make sure to enter a right username and a right date format.",

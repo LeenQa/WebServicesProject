@@ -12,17 +12,17 @@ import edu.bu.soap.useraccounts.UserAccounts;
 import edu.bu.soap.useraccounts.UserAccountsRepository;
 
 @Service
-public class MyUserDetailsService implements UserDetailsService{
+public class MyUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	UserAccountsRepository userAccountsRepository;
-	
+
+	// return the logged in user's account
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<UserAccounts> user = userAccountsRepository.findByUserName(username);
-		
-		user.orElseThrow(() -> new  UsernameNotFoundException("Not found: " + username));
+
 		return user.map(MyUserDetails::new).get();
-		}
+	}
 
 }
