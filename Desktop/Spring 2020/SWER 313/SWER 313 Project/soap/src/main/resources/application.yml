@@ -10,3 +10,12 @@
       clientAuthenticationScheme: form
     resource:
       userInfoUri: https://graph.facebook.com/me
+      
+      spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 864079691421-0743cp4s8jhki8lfn4s2262atcks2a3m.apps.googleusercontent.com
+            client-secret: suJNKqjZMnu5QPpNIvu-Oj4D

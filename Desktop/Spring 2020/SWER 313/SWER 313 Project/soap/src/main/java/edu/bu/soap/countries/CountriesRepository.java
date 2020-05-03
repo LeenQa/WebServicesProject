@@ -16,6 +16,10 @@ public interface CountriesRepository extends CrudRepository<Countries, Integer> 
 	@Query(value = "SELECT countries.country_code, countries.country_name, sum(infections.num_of_infections), sum(infections.num_of_deaths), sum(infections.num_of_recoveries) FROM countries, infections WHERE countries.country_code=?1 AND countries.country_code = infections.the_country_code", nativeQuery = true )
 	List<Object[]> queryBy2(int code);
 	
+	//return a list of the country codes
+		@Query(value = "SELECT country_code FROM countries", nativeQuery = true)
+		List<Object[]> getCountryCodes();
+	
 
 }
 
