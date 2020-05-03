@@ -12,12 +12,6 @@ public class HomeResource {
 	public String home() {
 		return ("<h1 style=\"text-align:center;color:purple;font-size:50px; border-bottom: 1px solid black\">Welcome to the main page<h1>");
 	}
-	
-	// direct to facebook page
-		@GetMapping("/facebook")
-		public String facebook() {
-			return ("<h1 style=\"text-align:center;color:purple;font-size:50px; border-bottom: 1px solid black\">Welcome to facebook<h1>");
-		}
 
 	// direct user to the user page
 	@GetMapping("/user")
