@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				.and().cors().and().csrf().disable()
 				.formLogin();
-        // .oauth2Login();
+				//.oauth2Login();
 	}
 
 	// encode password to not store it as a plain text (more secure)

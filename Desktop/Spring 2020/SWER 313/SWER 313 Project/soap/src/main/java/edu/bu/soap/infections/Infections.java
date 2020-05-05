@@ -77,12 +77,12 @@ public class Infections {
 		this.sourceURL = sourceURL;
 	}
 
-	public int getNumOfInections() {
+	public int getNumOfInfections() {
 		return numOfInfections;
 	}
 
-	public void setNumOfInections(int numOfInections) {
-		this.numOfInfections = numOfInections;
+	public void setNumOfInfections(int numOfInfections) {
+		this.numOfInfections = numOfInfections;
 	}
 
 	public int getNumOfDeaths() {

@@ -41,13 +41,17 @@ public class UserAccountsController {
 //creating a get mapping that retrieves the userAccount details from the database
 	@GetMapping("/myprofile")
 	private String getAllUserAccounts() {
+		try {
 		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		return userAccountsService.getUserAccountsByUserName(name).toString();
+		} catch (Exception e) {
+			return "Make sure to login first.";
+		}
 	}
 
 //creating a delete mapping that deletes a specified userAccount
-	@DeleteMapping("/useraccount/{userAccountUserName}")
+	@DeleteMapping("/myprofile/{userAccountUserName}")
 	private String deleteUserAccount(@PathVariable("userAccountUserName") String userAccountUserName) {
 		try {
 			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext()
@@ -84,7 +88,7 @@ public class UserAccountsController {
 		} else
 			return new ResponseEntity<String>("Make sure to upload your photo.", HttpStatus.BAD_REQUEST);
 		if (email.length() == 0 || name.length() == 0 || password.length() == 0 || birthDate == null) {
-			return new ResponseEntity<String>("Make sure all field are filled.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Make sure all fields are filled.", HttpStatus.BAD_REQUEST);
 		} else if (!name.matches("^[a-zA-Z0-9._-]{3,16}$")) {
 			return new ResponseEntity<String>(
 					"Username should be 4 letters minimum, 14 letters maximum. The letters must be alphanumeric.",
@@ -110,7 +114,7 @@ public class UserAccountsController {
 	}
 
 //creating put mapping that updates the user account's password
-	@PutMapping("/useraccounts/changepassword/{userAccountUserName}")
+	@PutMapping("/myprofile/changepassword/{userAccountUserName}")
 	private ResponseEntity<String> updatePassword(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String password) {
 		try {
@@ -136,7 +140,7 @@ public class UserAccountsController {
 	}
 
 	// creating put mapping that updates the user account's email
-	@PutMapping("/useraccounts/changeemail/{userAccountUserName}")
+	@PutMapping("/myprofile/changeemail/{userAccountUserName}")
 	private ResponseEntity<String> updateEmail(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String email) {
 		try {
@@ -161,7 +165,7 @@ public class UserAccountsController {
 	}
 
 	// creating put mapping that updates the user account's photo detail
-	@PutMapping("/useraccounts/changeuserphoto/{userAccountUserName}")
+	@PutMapping("/myprofile/changeuserphoto/{userAccountUserName}")
 	private ResponseEntity<String> updateUserPhoto(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestParam("userPhoto") MultipartFile file) {
 		try {
@@ -171,6 +175,7 @@ public class UserAccountsController {
 			if (name.equals(userAccountUserName)) {
 				UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
 				byte[] photo;
+				if (!file.isEmpty()) {
 				try {
 					photo = file.getBytes();
 
@@ -179,7 +184,8 @@ public class UserAccountsController {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
+				} else
+					return new ResponseEntity<String>("Make sure to upload your photo.", HttpStatus.BAD_REQUEST);
 				return new ResponseEntity<String>("Photo is uploaded successfully!!", HttpStatus.OK);
 			} else
 				return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
@@ -189,7 +195,7 @@ public class UserAccountsController {
 	}
 
 	// creating put mapping that updates the user account's birth date
-	@PutMapping("/useraccounts/changebirthdate/{userAccountUserName}")
+	@PutMapping("/myprofile/changebirthdate/{userAccountUserName}")
 	private ResponseEntity<String> updateBirthDate(@PathVariable("userAccountUserName") String userAccountUserName,
 			@RequestBody String birthDate) throws ParseException {
 		try {
@@ -199,12 +205,16 @@ public class UserAccountsController {
 			if (name.equals(userAccountUserName)) {
 				TimeZone.setDefault(TimeZone.getTimeZone("UTC")); // to get the accurate date
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+				if(birthDate.trim().length()==0) {
+					return new ResponseEntity<String>("Make sure to enter a new birth date.", HttpStatus.BAD_REQUEST);
+				} else {
 				java.util.Date date = (java.util.Date) df.parse(birthDate);
 
 				UserAccounts userAccount = userAccountsService.getUserAccountsByUserName(userAccountUserName);
 				userAccount.setBirthDate(date);
 				userAccountsService.saveOrUpdate(userAccount);
 				return new ResponseEntity<String>("You have changed your birth date successfully!", HttpStatus.OK);
+				}
 			} else
 				return new ResponseEntity<String>("Make sure to enter your right username.", HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {

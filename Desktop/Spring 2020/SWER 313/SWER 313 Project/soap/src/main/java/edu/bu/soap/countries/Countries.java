@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 //mark class as an Entity   
 @Entity
-//defining class name as Table name  
+/**defining class name as Table name*/
 @Table
 public class Countries {
 	@Id
@@ -15,7 +15,7 @@ public class Countries {
 	private int countryCode;
 	@Column
 	private String countryName;
-
+	/**defining class name as Table name*/
 	public int getCountryCode() {
 		return countryCode;
 	}

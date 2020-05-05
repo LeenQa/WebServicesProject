@@ -73,7 +73,7 @@ public class CountriesController {
 
 			return result;
 		} catch (Exception e) {
-			return "Make sure you entered a right id";
+			return "Make sure you entered a right country code";
 		}
 		// return countriesService.getAllByCode(countryCode);
 	}
@@ -85,7 +85,7 @@ public class CountriesController {
 			countriesService.delete(countryCode);
 			return new ResponseEntity<String>("The record have been deleted.", HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("Make sure you entered a right id", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Make sure you entered a right country code", HttpStatus.BAD_REQUEST);
 		}
 	}
 

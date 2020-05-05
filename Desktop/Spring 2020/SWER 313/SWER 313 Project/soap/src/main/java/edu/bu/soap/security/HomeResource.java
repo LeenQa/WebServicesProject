@@ -18,6 +18,7 @@ public class HomeResource {
 	public String user() {
 		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
+		
 		return ("<h1 style=\"text-align:center;color:purple;font-size:50px; border-bottom: 1px solid black\">Welcome "
 				+ name + "!!</h1>");
 	}

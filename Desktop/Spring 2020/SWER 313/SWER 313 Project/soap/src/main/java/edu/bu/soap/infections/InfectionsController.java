@@ -29,7 +29,7 @@ public class InfectionsController {
 	@Autowired
 	CountriesService countriesService;
 
-//creating a get mapping that retrieves all the infections details from the database that are made by the logged in user
+/**creating a get mapping that retrieves all the infections details from the database that are made by the logged in user*/
 	@GetMapping("/infections")
 	private ArrayList<Infections> getAllInfections() {
 		org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -83,7 +83,7 @@ public class InfectionsController {
 
 				infectionsService.saveOrUpdate(infections);
 				return new ResponseEntity<String>(
-						"Infection" + infections.getId() + " has been reported successfully! ", HttpStatus.OK);
+						"Infection " + infections.getId() + " has been reported successfully! ", HttpStatus.OK);
 			} else
 				return new ResponseEntity<String>("Make sure to enter a right URL.", HttpStatus.BAD_REQUEST);
 		} catch (Exception e2) {
@@ -133,7 +133,7 @@ public class InfectionsController {
 	@PutMapping("/infections/numberofinfections/{infectionId}")
 	private String updateNumOfInfections(@PathVariable("infectionId") int id, @RequestParam int infections) {
 		Infections infection = infectionsService.getInfectionsById(id);
-		infection.setNumOfInections(infections);
+		infection.setNumOfInfections(infections);
 		LocalDateTime reported = infection.getDtReported();
 		String reportedBy = infection.getReportedBy();
 		LocalDateTime today = LocalDateTime.now();
