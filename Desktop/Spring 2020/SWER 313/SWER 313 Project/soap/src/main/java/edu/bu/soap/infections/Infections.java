@@ -11,9 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
-//mark class as an Entity   
-@Entity
-//defining class name as Table name  
+/**A class that contains the columns of the infections entity and the methods used to get and set these columns*/
+@Entity  
 @Table
 public class Infections {
 	@Id
@@ -23,8 +22,6 @@ public class Infections {
 	@JoinTable(name = "Countries", joinColumns = @JoinColumn(name = "countryCode"), inverseJoinColumns = @JoinColumn(name = "theCountryCode"))
 	private int theCountryCode;
 	@Column
-	// @CreationTimestamp
-	// @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime dtReported;
 	@JoinTable(name = "UsersAccounts", joinColumns = @JoinColumn(name = "reportedBy"), inverseJoinColumns = @JoinColumn(name = "userName"))
 	private String reportedBy;

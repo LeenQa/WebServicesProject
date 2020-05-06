@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.bu.soap.countries.CountriesService;
 
-//mark class as Controller
+/**a controller class for infections that contains all the CRUD methods needed to implement the services for the infections*/
 @RestController
 public class InfectionsController {
 //autowire the infectionsService class
@@ -46,15 +46,21 @@ public class InfectionsController {
 	}
 
 //creating a delete mapping that deletes a specified infection that is made by the logged in user
-	@DeleteMapping("/infection/{infectionId}")
+	@DeleteMapping("/infections/deleteinfection/{infectionId}")
 	private ResponseEntity<String> deleteInfection(@PathVariable("infectionId") int infectionId) {
 		try {
+			Infections infection = infectionsService.getInfectionsById(infectionId);
+			LocalDateTime reported = infection.getDtReported();
+			LocalDateTime today = LocalDateTime.now();
 			org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext()
 					.getAuthentication();
 			String name = auth.getName();
 			String reportedBy = infectionsService.getInfectionsById(infectionId).getReportedBy();
 			if (name.equals(reportedBy)) {
+				if (reported.getDayOfYear() == today.getDayOfYear() && today.getDayOfMonth() == reported.getDayOfMonth()
+						&& reported.getDayOfWeek() == today.getDayOfWeek()) {
 				infectionsService.delete(infectionId);
+				} else return new ResponseEntity<String>("You can only delete the record on the same day you put it.", HttpStatus.BAD_REQUEST);
 				return new ResponseEntity<String>("The reported infection has been deleted!", HttpStatus.OK);
 			} else
 				return new ResponseEntity<String>("You can't delete data you have not made!", HttpStatus.BAD_REQUEST);
@@ -200,7 +206,7 @@ public class InfectionsController {
 
 	}
 
-	// method to get countries codes
+	/**method to get countries codes*/
 	ArrayList<Integer> getCountryCodes() {
 		ArrayList<Integer> countrycodes = new ArrayList<Integer>();
 		List<Object[]> list = countriesService.getcountryCodes();

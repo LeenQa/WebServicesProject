@@ -4,10 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-//mark class as an Entity   
+  
+/**A class that contains the columns of the countries entity and the methods used to get and set these columns*/
 @Entity
-/**defining class name as Table name*/
 @Table
 public class Countries {
 	@Id
@@ -15,7 +14,7 @@ public class Countries {
 	private int countryCode;
 	@Column
 	private String countryName;
-	/**defining class name as Table name*/
+
 	public int getCountryCode() {
 		return countryCode;
 	}

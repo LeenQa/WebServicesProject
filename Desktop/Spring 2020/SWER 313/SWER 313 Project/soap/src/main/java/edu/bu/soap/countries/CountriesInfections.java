@@ -3,7 +3,7 @@ package edu.bu.soap.countries;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-//a class that combines countries and infections to use it when the user requests to get infections in a specific country or all countries
+/**a class that combines countries and infections to use it when the user requests to get infections in a specific country or all countries*/
 public class CountriesInfections {
 
 	int countryCode;

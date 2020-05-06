@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-//mark class as Controller
+/**A controller class for countries that contains all the CRUD methods needed to implement the services for the countries*/
 @RestController
 public class CountriesController {
 //autowire the countrysService class
@@ -44,7 +44,7 @@ public class CountriesController {
 			int infections = ((BigDecimal) var[3]).intValue();
 			int recoveries = ((BigDecimal) var[4]).intValue();
 
-			CountriesInfections record = new CountriesInfections(code, name, deaths, infections, recoveries);
+			edu.bu.soap.countries.CountriesInfections record = new CountriesInfections(code, name, deaths, infections, recoveries);
 			map.add(record);
 		}
 		String result = gson.toJson(map);

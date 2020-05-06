@@ -14,9 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
-//mark class as an Entity   
+/**A class that contains the columns of the user accounts entity and the methods used to get and set these columns*/
 @Entity
-//defining class name as Table name  
 @Table
 @DynamicUpdate
 public class UserAccounts {

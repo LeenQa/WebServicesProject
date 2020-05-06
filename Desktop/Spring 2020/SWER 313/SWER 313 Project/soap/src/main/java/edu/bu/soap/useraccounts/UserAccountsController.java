@@ -25,18 +25,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-//mark class as Controller	
+import edu.bu.soap.security.SecurityConfiguration;
+
+/**controller class for user accounts that contains all the CRUD methods needed to implement the services for the user accounts*/
 @RestController
 public class UserAccountsController {
 
-	// autowire the userAccountsService class
+	/**autowire the userAccountsService class*/
 	@Autowired
-	UserAccountsService userAccountsService;
-	/*
-	 * @Autowired InfectionsService infectionsService;
-	 * 
-	 * @Autowired UserAccountsService userAccountsService;
-	 */
+	edu.bu.soap.useraccounts.UserAccountsService userAccountsService;
 
 //creating a get mapping that retrieves the userAccount details from the database
 	@GetMapping("/myprofile")
@@ -70,7 +67,7 @@ public class UserAccountsController {
 
 //creating post mapping that register a user and saves his account details in the database
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public ResponseEntity<String> registerUser(@RequestParam("userName") String name,
+	private ResponseEntity<String> registerUser(@RequestParam("userName") String name,
 			@RequestParam("userPassword") String password, @RequestParam("email") String email,
 			@RequestParam("birthDate") String birthDate, @RequestParam("userPhoto") MultipartFile file,
 			HttpServletRequest request, HttpServletResponse response) throws ParseException {
