@@ -125,6 +125,7 @@ public class UserAccountsController {
 							"Your password isn't strong enough. It should have at least one special character, one digit, one lowercase and one uppercase character, and it's length is 6 letters minimum, 16 letters maximum.",
 							HttpStatus.BAD_REQUEST);
 				} else {
+					password = new SecurityConfiguration().getPasswordEncoder().encode(password);
 					userAccount.setUserPassword(password);
 					userAccountsService.saveOrUpdate(userAccount);
 					return new ResponseEntity<String>("You have changed your password successfully!", HttpStatus.OK);
